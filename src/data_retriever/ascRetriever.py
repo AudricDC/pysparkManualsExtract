@@ -8,7 +8,7 @@ def ascRetriever() -> DataFrame:
 
     :return: spark dataframe from mongoDB data
     """
-    inputUri = "mongodb://audric:ixep@localhost:27017/asMoldedEngineeringData.ascData?authSource=admin"
+    inputUri = "mongodb://user:pwd@localhost:27017/db.collection?authSource=admin"
     jarsPackages = "org.mongodb.spark:mongo-spark-connector_2.11:2.3.2"
     spark = SparkSession.builder.config("spark.mongodb.input.uri", inputUri).config("spark.jars.packages",
                                                                                     jarsPackages).getOrCreate()

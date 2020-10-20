@@ -8,7 +8,7 @@ def ctManualsRetriever() -> DataFrame:
 
     :return: spark dataframe from mongoDB data
     """
-    inputUri = "mongodb://audric:ixep@localhost:27017/asMoldedEngineeringData.ctManualsData?authSource=admin"
+    inputUri = "mongodb://user:pwd@localhost:27017/db.collection?authSource=admin"
     jarsPackages = "org.mongodb.spark:mongo-spark-connector_2.11:2.3.2"
     # for query and projection, see : https://stackoverflow.com/questions/62482727/specify-fields-in-pyspark-when-reading-from-mongodb-collection
     pipeline = "{'$match': {}}"
