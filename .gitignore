@@ -1,0 +1,7 @@
+.idea
+venv
+src/models
+/spark-warehouse/
+*.pyc
+/__pycache__/
+*.csv
