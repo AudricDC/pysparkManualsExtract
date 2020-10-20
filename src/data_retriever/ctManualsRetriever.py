@@ -18,7 +18,7 @@ def ctManualsRetriever() -> DataFrame:
                                                                                                                "isAlleviated",
                                                                                                                "plant",
                                                                                                                "annotations")
-    # data.select("annotations.type", "annotations.location.mmBladeBaryCenterX").show(truncate=False)
+    # data.select("annotations.type").show(truncate=False)
     return data
 
 

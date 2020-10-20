@@ -13,7 +13,7 @@ def ascRetriever() -> DataFrame:
     spark = SparkSession.builder.config("spark.mongodb.input.uri", inputUri).config("spark.jars.packages",
                                                                                     jarsPackages).getOrCreate()
     data = spark.read.format("com.mongodb.spark.sql.DefaultSource").load().select("sn", "plant", "operations").withColumnRenamed("plant", "ascPlant")
-    # data.select("annotations.type", "annotations.location.mmBladeBaryCenterX").show(truncate=False)
+    # data.select("annotations.type").show(truncate=False)
     return data
 
 
