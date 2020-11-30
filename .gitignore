@@ -1,6 +1,7 @@
 .idea
 venv
 src/models
+*.ini
 /spark-warehouse/
 *.pyc
 /__pycache__/

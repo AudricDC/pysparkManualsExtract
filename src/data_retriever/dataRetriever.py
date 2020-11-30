@@ -1,12 +1,12 @@
 from pyspark.sql.dataframe import DataFrame
-from src.data_retriever.ctManualsRetriever import ctManualsRetriever
-from src.data_retriever.ascRetriever import ascRetriever
+from src.data_retriever.customersRetriever import customersRetriever
+from src.data_retriever.transactionsRetriever import transactionsRetriever
 
 
 def dataRetriever() -> DataFrame:
-    ctManualsDf = ctManualsRetriever()
-    ascDf = ascRetriever()
-    mergedDf = ctManualsDf.join(ascDf, on="sn", how="inner")
+    customersDf = customersRetriever()
+    transactionsDf = transactionsRetriever()
+    mergedDf = customersDf.join(transactionsDf, on="account_id", how="inner")
     return mergedDf
 
 

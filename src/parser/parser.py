@@ -1,38 +1,30 @@
-import datetime as dt
-
 from pyspark.sql.dataframe import DataFrame
 from src.data_retriever.dataRetriever import dataRetriever
 
 from pyspark.sql import Row
 
 
+def __getAmount(amount, transaction_code):
+    if transaction_code == "sell":
+        return amount
+    return -amount
+
+
 def _parseRow(row):
-    # get sn
-    sn = row.sn
-    # parse alleviated column
-    isAlleviated = False
-    if row.isAlleviated == "YES":
-        isAlleviated = True
-    # get annotations count
-    annotationsCount = int(len(row.annotations))
-    # get asc plant
-    ascPlant = row.ascPlant
-    # parse loomLJ and dateLJ
-    try:
-        operation = list(filter(lambda x: not x.workCenter.find("LJ"), row.operations))[0]
-        loomLJ = operation.workCenter
-        dateLJ = operation.date
-        # print(dateLJ)
-    except IndexError:
-        loomLJ = "Unknown"
-        dateLJ = dt.datetime(1999, 1, 1)
-    # proximities, alignments set to 0 because of no data
-    return Row(qty=1, sn=sn, isAlleviated=isAlleviated, tomoPlant=row.plant, annotationsCount=annotationsCount,
-               ascPlant=ascPlant, loomLJ=loomLJ, dateLJ=dateLJ, nbOfProximities=0, nbOfVAlignments=0, nbOfHAlignments=0)
+    name = row.name
+    address = row.address
+    account_id = row.account_id
+    transaction_count = row.transaction_count
+    transaction_balance = sum(
+        map(lambda x, y: __getAmount(amount=x, transaction_code=y), row.amount, row.transaction_code))
+    return Row(name=name, address=address, account_id=account_id, transaction_count=transaction_count,
+               transaction_balance=transaction_balance)
 
 
 def dataParser(data: DataFrame) -> DataFrame:
     csvData = data.rdd.map(_parseRow).toDF()
+    csvData = csvData.groupBy("name").agg(
+        {"transaction_balance": "sum", "transaction_count": "sum", "account_id": "count"})
     return csvData
 
 
