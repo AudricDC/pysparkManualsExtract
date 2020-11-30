@@ -5,4 +5,4 @@ if __name__ == "__main__":
     data = dataRetriever()
     csvData = dataParser(data)
     csvData.repartition(1).write.format('com.databricks.spark.csv').save("myfile.csv", header='true')  # faster
-    input("click")  # too see time on spark UI
+    input("enter")  # too see time on spark UI
